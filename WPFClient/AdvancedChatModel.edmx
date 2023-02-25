@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AdvancedChatModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BlackList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="ChatMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AvatarId" Type="int" Nullable="false" />
+          <Property Name="SenderId" Type="int" />
+          <Property Name="Content" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChatUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__BlackList__UserI__619B8048">
+          <End Role="ChatUser" Type="Self.ChatUser" Multiplicity="0..1" />
+          <End Role="BlackList" Type="Self.BlackList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChatUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BlackList">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ChatMessa__Sende__5EBF139D">
+          <End Role="ChatUser" Type="Self.ChatUser" Multiplicity="0..1" />
+          <End Role="ChatMessage" Type="Self.ChatMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChatUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ChatMessage">
+              <PropertyRef Name="SenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AdvancedChatModelStoreContainer">
+          <EntitySet Name="BlackList" EntityType="Self.BlackList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChatMessage" EntityType="Self.ChatMessage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChatUser" EntityType="Self.ChatUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BlackList__UserI__619B8048" Association="Self.FK__BlackList__UserI__619B8048">
+            <End Role="ChatUser" EntitySet="ChatUser" />
+            <End Role="BlackList" EntitySet="BlackList" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ChatMessa__Sende__5EBF139D" Association="Self.FK__ChatMessa__Sende__5EBF139D">
+            <End Role="ChatUser" EntitySet="ChatUser" />
+            <End Role="ChatMessage" EntitySet="ChatMessage" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AdvancedChatModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BlackList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="ChatUser" Relationship="Self.FK__BlackList__UserI__619B8048" FromRole="BlackList" ToRole="ChatUser" />
+        </EntityType>
+        <EntityType Name="ChatMessage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AvatarId" Type="Int32" Nullable="false" />
+          <Property Name="SenderId" Type="Int32" />
+          <Property Name="Content" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ChatUser" Relationship="Self.FK__ChatMessa__Sende__5EBF139D" FromRole="ChatMessage" ToRole="ChatUser" />
+        </EntityType>
+        <EntityType Name="ChatUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BlackList" Relationship="Self.FK__BlackList__UserI__619B8048" FromRole="ChatUser" ToRole="BlackList" />
+          <NavigationProperty Name="ChatMessage" Relationship="Self.FK__ChatMessa__Sende__5EBF139D" FromRole="ChatUser" ToRole="ChatMessage" />
+        </EntityType>
+        <Association Name="FK__BlackList__UserI__619B8048">
+          <End Role="ChatUser" Type="Self.ChatUser" Multiplicity="0..1" />
+          <End Role="BlackList" Type="Self.BlackList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChatUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BlackList">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ChatMessa__Sende__5EBF139D">
+          <End Role="ChatUser" Type="Self.ChatUser" Multiplicity="0..1" />
+          <End Role="ChatMessage" Type="Self.ChatMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChatUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ChatMessage">
+              <PropertyRef Name="SenderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AdvancedChatEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BlackList" EntityType="Self.BlackList" />
+          <EntitySet Name="ChatMessage" EntityType="Self.ChatMessage" />
+          <EntitySet Name="ChatUser" EntityType="Self.ChatUser" />
+          <AssociationSet Name="FK__BlackList__UserI__619B8048" Association="Self.FK__BlackList__UserI__619B8048">
+            <End Role="ChatUser" EntitySet="ChatUser" />
+            <End Role="BlackList" EntitySet="BlackList" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ChatMessa__Sende__5EBF139D" Association="Self.FK__ChatMessa__Sende__5EBF139D">
+            <End Role="ChatUser" EntitySet="ChatUser" />
+            <End Role="ChatMessage" EntitySet="ChatMessage" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AdvancedChatModelStoreContainer" CdmEntityContainer="AdvancedChatEntities">
+          <EntitySetMapping Name="BlackList">
+            <EntityTypeMapping TypeName="AdvancedChatModel.BlackList">
+              <MappingFragment StoreEntitySet="BlackList">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChatMessage">
+            <EntityTypeMapping TypeName="AdvancedChatModel.ChatMessage">
+              <MappingFragment StoreEntitySet="ChatMessage">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AvatarId" ColumnName="AvatarId" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChatUser">
+            <EntityTypeMapping TypeName="AdvancedChatModel.ChatUser">
+              <MappingFragment StoreEntitySet="ChatUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

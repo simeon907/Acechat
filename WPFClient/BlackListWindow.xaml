@@ -1,0 +1,20 @@
+﻿<Window x:Class="WPFClient.BlackListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFClient"
+        mc:Ignorable="d"
+        Title="Черный список" Height="450" Width="600" ResizeMode="NoResize">
+    <Grid Background="#2f1d38">
+        <Label Name="labelWhiteList" Content="Не в черном списке:" Foreground="White" Margin="62,17,394.6,364"/>
+        <ListBox x:Name="WhiteList" Margin="10,48,334.6,40" SelectionChanged="WhiteList_SelectionChanged" Style="{DynamicResource ListBoxStyle}"/>
+        <Label Name="labelBlackList" Content="Черный список:" Foreground="White" Margin="406,18,40.6,364"/>
+        <ListBox x:Name="BlackList" Margin="334.6,48,10,40" SelectionChanged="BlackList_SelectionChanged" Style="{DynamicResource ListBoxStyle}"/>
+        <Button x:Name="buttonToggle" MouseEnter="buttonToggle_MouseEnter" MouseLeave="buttonToggle_MouseLeave" Click="buttonToggle_Click" IsEnabledChanged="buttonToggle_IsEnabledChanged" Margin="264,130,264,130" Style="{DynamicResource ButtonToggle}">
+            <Image x:Name="imgArrows" MouseEnter="buttonToggle_MouseEnter" Source="leftrightarrowgrey.png" Height="157"/>
+        </Button>
+        <Button x:Name="ButtonSaveChanges" Click="ButtonSaveChanges_Click" MouseEnter="ButtonSaveChanges_MouseEnter" Content="Сохранить изменения" Style="{DynamicResource ButtonStyleConnect}" Margin="217,385,211.6,6"/>
+        
+    </Grid>
+</Window>
